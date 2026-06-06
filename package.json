@@ -1,0 +1,17 @@
+{
+  "name": "myapi-integrations",
+  "license": "Apache-2.0",
+  "private": true,
+  "workspaces": [
+    "packages/sdk",
+    "packages/cli",
+    "packages/test-harness"
+  ],
+  "version": "0.0.1",
+  "scripts": {
+    "canonical-sync": "node scripts/canonical-sync.mjs",
+    "canonical-sync:check": "node scripts/canonical-sync.mjs --check",
+    "test:realistic": "npm run test:realistic -w @myapihq/cli",
+    "test:realistic:cleanup": "npm run test:realistic:cleanup -w @myapihq/cli"
+  }
+}
