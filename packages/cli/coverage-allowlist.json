@@ -1,0 +1,36 @@
+{
+  "_comment": "Endpoints intentionally not covered by the CLI. Each entry needs an endpoint (in OpenAPI-templated form, e.g. 'POST /admin/orgs/{org_id}/sudo') and a reason. Path-parameter names are normalized at match time, so the names you use here are documentation only. Categorize by reason prefix so we can review periodically: 'web-only-auth', 'webhook-receiver', 'public-endpoint', 'infra', 'meta', 'future-cli'. Maintained as part of S-103 in the integrations sprint plan.",
+
+  "deferred": [
+    { "endpoint": "POST /hq/account/login",             "reason": "web-only-auth: web-app login flow; CLI uses bearer tokens directly" },
+    { "endpoint": "POST /hq/account/refresh",           "reason": "web-only-auth: web session refresh; CLI uses long-lived API keys" },
+    { "endpoint": "POST /hq/account/register",          "reason": "web-only-auth: email+password registration; CLI uses anonymous account upgrade flow instead" },
+    { "endpoint": "GET /hq/account/verify-email",       "reason": "web-only-auth: email verification callback; CLI uses send-code/verify-code flow" },
+    { "endpoint": "GET /hq/auth/google/callback",       "reason": "web-only-auth: OAuth callback target; not initiated by CLI users" },
+    { "endpoint": "GET /hq/auth/google/redirect",       "reason": "web-only-auth: OAuth redirect entry point; not initiated by CLI users" },
+
+    { "endpoint": "POST /hq/billing/webhook",           "reason": "webhook-receiver: Stripe → MyAPI webhook; never called from CLI" },
+    { "endpoint": "POST /hq/billing/setup-payment/confirm", "reason": "webhook-receiver: Stripe confirmation callback; never called from CLI" },
+    { "endpoint": "POST /email/webhook/ses",            "reason": "webhook-receiver: SES → MyAPI email events; never called from CLI" },
+    { "endpoint": "POST /webhook/in/{slug}",            "reason": "webhook-receiver: user-configured inbound webhooks; receives traffic, not initiated by CLI users" },
+
+    { "endpoint": "GET /hq/healthz",                    "reason": "infra: health check; not a user-facing capability" },
+    { "endpoint": "GET /ops/status",                    "reason": "infra: ops/SRE status; not a user-facing capability" },
+
+    { "endpoint": "GET /schema/v1/openapi.json",        "reason": "meta: the schema endpoint itself; the coverage tool consumes it but doesn't need a CLI command" },
+    { "endpoint": "GET /schema/v1/docs",                "reason": "meta: human-readable API docs page; browser-rendered, not a CLI command" },
+
+    { "endpoint": "POST /funnel/funnels/{id}/event",    "reason": "public-endpoint: pixel/event ingest from published funnel pages; not a user-facing CLI capability" },
+    { "endpoint": "POST /funnel/funnels/{id}/submit/{slug}", "reason": "public-endpoint: form submission from published funnel pages; receives traffic" },
+    { "endpoint": "GET /storage/{id}",                  "reason": "public-endpoint: signed/public asset URL access; consumers fetch directly, not via CLI" },
+    { "endpoint": "GET /t/o",                           "reason": "public-endpoint: pixel tracking redirect" },
+    { "endpoint": "GET /t/p",                           "reason": "public-endpoint: pixel tracking redirect" },
+    { "endpoint": "GET /{domain}/{code}",               "reason": "public-endpoint: shortened-URL redirect; resolved by browsers, not CLI" },
+    { "endpoint": "GET /email/unsubscribe/{tok}",       "reason": "public-endpoint: direct-link unsubscribe (recipient clicks from email); browser target, not CLI" },
+    { "endpoint": "POST /email/unsubscribe/{tok}",      "reason": "public-endpoint: RFC 8058 one-click unsubscribe (mail clients POST automatically); not CLI-driven" },
+
+    { "endpoint": "GET /image/orgs/{org_id}/generate/{id}", "reason": "documentation-alias: REST-instinct alias for GET /image/orgs/{org_id}/jobs/{id} (already covered by `image get-job <id>`); same handler" },
+    { "endpoint": "POST /llm/orgs/{org_id}/chat/completions", "reason": "openai-compat: drop-in for the OpenAI SDK — users set `base_url` and invoke via their OpenAI client, not the CLI" },
+    { "endpoint": "POST /llm/orgs/{org_id}/v1/chat/completions", "reason": "openai-compat: /v1 alias of chat/completions for SDKs that hard-code /v1; same as above" }
+  ]
+}
