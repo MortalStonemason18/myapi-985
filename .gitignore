@@ -1,0 +1,27 @@
+node_modules/
+dist/
+*.log
+.env
+.env.*
+!.env.*.example
+.DS_Store
+.claude/
+tests/
+skills/*/n8n/
+skills/*/make/
+packages/cli/src/skills/*/n8n/
+packages/cli/src/skills/*/make/
+
+# Agent test harness historical run data — committed file is baseline.json only
+packages/test-harness/results/
+
+# BMAD planning artifacts — private strategy, never published
+bmad/
+docs/
+
+# Scratch / experiment files (e.g. landing_page.html from Gemini Smart Link Tracker test)
+tmp/
+
+# Realistic-test run reports — per-run artifacts (resource ids, LLM output,
+# scoped keys). Written by MYAPI_REALISTIC_KEEP=1 runs; never committed.
+packages/cli/test/realistic/runs/
