@@ -1,0 +1,40 @@
+{
+  "name": "@myapihq/cli",
+  "license": "Apache-2.0",
+  "version": "1.3.12",
+  "description": "MyAPI command-line interface",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "bin": {
+    "myapi": "dist/index.js"
+  },
+  "scripts": {
+    "prebuild": "node scripts/copy-skills.js",
+    "build": "tsc && rm -rf dist/skills && cp -r src/skills dist/skills",
+    "dev": "tsc --watch",
+    "test": "vitest run src test/scripts",
+    "test:smoke": "npm run build && vitest run src test/smoke test/scripts",
+    "test:online": "npm run build && MYAPI_RUN_RESET=1 vitest run test/online",
+    "test:realistic": "npm run build && MYAPI_RUN_REALISTIC=1 vitest run test/realistic/autonomous-company.test.ts",
+    "test:realistic:cleanup": "npm run build && vitest run test/realistic/cleanup.test.ts",
+    "test:all": "npm run build && MYAPI_RUN_RESET=1 vitest run src test/smoke test/scripts test/online",
+    "check-coverage": "npm run build && node scripts/check-coverage.js",
+    "check-coverage:live": "npm run build && node scripts/check-coverage.js --live",
+    "update-schema": "node scripts/update-schema.js",
+    "lint:changelog": "node ../../scripts/lint-changelog.js",
+    "lint:help-order": "node scripts/lint-help-order.js",
+    "lint:skills": "node scripts/lint-skills.js",
+    "lint:skills:strict": "node scripts/lint-skills.js --strict"
+  },
+  "dependencies": {
+    "@myapihq/sdk": "^1.3.12"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "typescript": "^5.4.0",
+    "vitest": "^4.1.5"
+  }
+}
